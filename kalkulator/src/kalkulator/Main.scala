@@ -7,6 +7,8 @@ object Main extends App {
   val calc = new Calculator();
   val inputStreamEvaluator = new InputStreamEvaluator(variableStorage,calc);
   
+  println("Welcome to Calculator!");
+  
   while(true) {
     var input:String = scala.io.StdIn.readLine();
     
