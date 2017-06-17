@@ -4,16 +4,6 @@ class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculat
   
   def evaluate (input: String) = input match {
     
-    case store if store.startsWith("store") => 
-      var result = store.split(" ");
-      
-      if(result(1).equals(result(1).capitalize))
-        calculatorStorage.addConstant(result(1), result(2).toInt);
-      else
-        calculatorStorage.addVariable(result(1), result(2).toInt);
-      
-      calculatorStorage.printStoredValues();
-    
     case operation if operation.contains(" + ") || operation.contains(" / ") 
                       || operation.contains(" - ") || operation.contains(" * ") || operation.contains(" ^ ") =>
       var result = operation.split(" ");
@@ -51,6 +41,35 @@ class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculat
             else if (e2.name.equals("_second"))
                 println("variable not stored: " + result(2));
       }
+    
+    case log if log.startsWith("log") =>
+      var result = log.split(" ");
+      
+      var e1:Value.Val = new Value.Var("_first", -1);
+      
+      try {
+      
+        if (Character.isDigit(result(1).charAt(0)) ) 
+            e1 = new Value.Var("", result(1).toInt);
+          else 
+            e1 = calculatorStorage.getValueFromStorage(result(1)).get;
+        
+        println("Result: " + calculator.performUnaryOperation((x) => math.log(x), e1.value));
+      
+      } catch {
+        case e:NoSuchElementException => 
+             println("variable not stored: " + result(0));
+      }
+      
+    case store if store.startsWith("store") => 
+      var result = store.split(" ");
+      
+      if(result(1).equals(result(1).capitalize))
+        calculatorStorage.addConstant(result(1), result(2).toInt);
+      else
+        calculatorStorage.addVariable(result(1), result(2).toInt);
+      
+      calculatorStorage.printStoredValues();
       
     case "end" => 
       System.exit(1234);

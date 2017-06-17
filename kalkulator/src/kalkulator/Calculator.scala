@@ -16,4 +16,8 @@ class Calculator {
     else tailRecursion(0, acc)
   }
   
+  def performUnaryOperation(g:(Int) => Double, a: Int) = {
+    g(a)
+  }
+  
 }
