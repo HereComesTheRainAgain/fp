@@ -6,27 +6,32 @@ class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculat
     
     case store if store.startsWith("store") => 
       var result = store.split(" ");
-      calculatorStorage.addVariable(result(1), result(2).toInt);
-      calculatorStorage.printVarStorage();
+      
+      if(result(1).equals(result(1).capitalize))
+        calculatorStorage.addConstant(result(1), result(2).toInt);
+      else
+        calculatorStorage.addVariable(result(1), result(2).toInt);
+      
+      calculatorStorage.printStoredValues();
     
     case operation if operation.contains(" + ") || operation.contains(" / ") 
                       || operation.contains(" - ") || operation.contains(" * ") || operation.contains(" ^ ") =>
       var result = operation.split(" ");
       
-      var e1 = new Expression.Var("_first", -1);
-      var e2 = new Expression.Var("_second", -1);
+      var e1:Expression.Expr = new Expression.Var("_first", -1);
+      var e2:Expression.Expr = new Expression.Var("_second", -1);
       
       try {
         
         if (Character.isDigit(result(0).charAt(0)) ) 
           e1 = new Expression.Var("", result(0).toInt);
         else 
-          e1 = calculatorStorage.findVariable(result(0)).get;
+          e1 = calculatorStorage.getValueFromStorage(result(0)).get;
         
         if (Character.isDigit(result(2).charAt(0)) ) 
           e2 = new Expression.Var("", result(2).toInt);
         else 
-          e2 = calculatorStorage.findVariable(result(2)).get;
+          e2 = calculatorStorage.getValueFromStorage(result(2)).get;
       
         if (result(1).equals("+")) 
             println("Result: " + calculator.performBinaryOperation((x,y)=> x+y, -1, e1.value, e2.value));
