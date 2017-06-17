@@ -7,7 +7,7 @@ class VariableStorage {
   def addVariable(name:String, value:Int) = {
     
     if( variables.exists(x => x.name.equals(name)) ) {
-      variables = List(Expression.Var(name,value)) ++ reassignVariableValue(variables, name, value)(x => x.name.equals(name))
+      variables = List(Expression.Var(name,value)) ++ dropVariableByName(variables, name, value)(x => x.name.equals(name))
     } else {
       variables = List(Expression.Var(name,value)) ++ variables
     }
@@ -34,13 +34,13 @@ class VariableStorage {
   }
   
   
-  def reassignVariableValue (variables:List[Expression.Var], name:String, value:Int)(f: Expression.Var => Boolean)
+  def dropVariableByName (variables:List[Expression.Var], name:String, value:Int)(f: Expression.Var => Boolean)
                 : List[Expression.Var] = variables match {
     case Nil => Nil
     case x::xs => if (f(x)) 
-                      reassignVariableValue(xs,name,value)(f) 
+                      dropVariableByName(xs,name,value)(f) 
                     else 
-                      x::reassignVariableValue(xs,name,value)(f)
+                      x::dropVariableByName(xs,name,value)(f)
   }
   
 }
