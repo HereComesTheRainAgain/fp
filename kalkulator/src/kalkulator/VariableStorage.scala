@@ -21,11 +21,11 @@ class VariableStorage {
   }
   
   
-  def findVariable(name:String):Expression.Var = {
-    def findVariableIter(variables:List[Expression.Var], name:String):Expression.Var = variables match {
-      case Nil => new Expression.Var("!!", -123)
+  def findVariable(name:String):Option[Expression.Var]= {
+    def findVariableIter(variables:List[Expression.Var], name:String):Option[Expression.Var] = variables match {
+      case Nil => None
       case x::xs => if (x.name.equals(name))
-                        x
+                        Some(x)
                     else
                         findVariableIter(xs, name)
     }

@@ -2,16 +2,11 @@ package kalkulator
 
 object Main extends App {
   
-  var variableStorage = new VariableStorage();
-  
-  val calc = new Calculator();
-  val inputStreamEvaluator = new InputStreamEvaluator(variableStorage,calc);
+  val inputStreamEvaluator = new InputStreamEvaluator(new VariableStorage(), new Calculator());
   
   println("Welcome to Calculator!");
   
   while(true) {
-    var input:String = scala.io.StdIn.readLine();
-    
-    inputStreamEvaluator.evaluate(input);
+    inputStreamEvaluator.evaluate(scala.io.StdIn.readLine());
   }
 }
