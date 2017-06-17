@@ -13,12 +13,12 @@ class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculat
       
       try {
         
-        if (Character.isDigit(result(0).charAt(0)) ) 
+        if ( isAllDigits(result(0)) ) 
           e1 = new Value.Var("", result(0).toInt);
         else 
           e1 = calculatorStorage.getValueFromStorage(result(0)).get;
         
-        if (Character.isDigit(result(2).charAt(0)) ) 
+        if ( isAllDigits(result(2)) ) 
           e2 = new Value.Var("", result(2).toInt);
         else 
           e2 = calculatorStorage.getValueFromStorage(result(2)).get;
@@ -49,7 +49,7 @@ class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculat
       
       try {
       
-        if (Character.isDigit(result(1).charAt(0)) ) 
+        if ( isAllDigits(result(1)) ) 
             e1 = new Value.Var("", result(1).toInt);
           else 
             e1 = calculatorStorage.getValueFromStorage(result(1)).get;
@@ -78,4 +78,7 @@ class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculat
       println("?? " + input);
       
   }
+  
+  def isAllDigits(x: String) = x forall Character.isDigit
+  
 }
