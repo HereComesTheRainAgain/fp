@@ -1,6 +1,6 @@
 package kalkulator
 
-class VariableStorage {
+class CalculatorStorage {
   
   private var variables:List[Expression.Var] = List();
   

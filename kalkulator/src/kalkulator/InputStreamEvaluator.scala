@@ -1,13 +1,13 @@
 package kalkulator
 
-class InputStreamEvaluator(var variableStorage:VariableStorage, var calculator:Calculator) {
+class InputStreamEvaluator(var calculatorStorage:CalculatorStorage, var calculator:Calculator) {
   
   def evaluate (input: String) = input match {
     
     case store if store.startsWith("store") => 
       var result = store.split(" ");
-      variableStorage.addVariable(result(1), result(2).toInt);
-      variableStorage.printVarStorage();
+      calculatorStorage.addVariable(result(1), result(2).toInt);
+      calculatorStorage.printVarStorage();
     
     case operation if operation.contains(" + ") || operation.contains(" / ") 
                       || operation.contains(" - ") || operation.contains(" * ") || operation.contains(" ^ ") =>
@@ -21,12 +21,12 @@ class InputStreamEvaluator(var variableStorage:VariableStorage, var calculator:C
         if (Character.isDigit(result(0).charAt(0)) ) 
           e1 = new Expression.Var("", result(0).toInt);
         else 
-          e1 = variableStorage.findVariable(result(0)).get;
+          e1 = calculatorStorage.findVariable(result(0)).get;
         
         if (Character.isDigit(result(2).charAt(0)) ) 
           e2 = new Expression.Var("", result(2).toInt);
         else 
-          e2 = variableStorage.findVariable(result(2)).get;
+          e2 = calculatorStorage.findVariable(result(2)).get;
       
         if (result(1).equals("+")) 
             println("Result: " + calculator.performBinaryOperation((x,y)=> x+y, -1, e1.value, e2.value));
